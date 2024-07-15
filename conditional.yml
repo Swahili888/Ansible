@@ -1,0 +1,18 @@
+---
+- name: "loop test"
+  hosts: usa
+  gather_facts: true
+  connection: network_cli
+
+  tasks:
+    - name: Gather all network facts
+      cisco.ios.ios_facts:
+        gather_subset:
+          - all
+      register: net_facts
+
+    - name: Display network interfaces
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ net_facts.ansible_facts.ansible_net_interfaces }}"
+

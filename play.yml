@@ -1,0 +1,18 @@
+- name: MY_FIRST_PLAYBOOK
+  hosts: cisco
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: "OSPF_CONFIG"
+      cisco.ios.ios_config:
+        lines:
+          - router-id 33.44.88.22
+        parents:
+          - router ospf 19
+      register: my_output
+
+    - name: "Debug OSPF Config Output"
+      debug:
+        var: my_output
+

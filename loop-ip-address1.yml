@@ -1,0 +1,19 @@
+---
+- name: "loop test"
+  hosts: usa
+  gather_facts: true
+  connection: network_cli
+
+  tasks:
+    - name: Gather all network facts
+      cisco.ios.ios_facts:
+        gather_subset:
+          - all
+      register: net_facts
+
+    - name: Display network facts
+      debug:
+        msg: "Interface {{ item.key }} has an IP Address of {{ item.value.ipv4[0]['address'] if item.value.ipv4 else 'N/A' }}"
+      loop: "{{ net_facts.ansible_facts.ansible_net_interfaces | dict2items }}"
+      when: item.value.ipv4 != []
+

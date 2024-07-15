@@ -1,0 +1,12 @@
+---
+
+- name: "Playbook to test conditional logic"
+  hosts: usa
+  gather_facts: true
+  connection: network_cli
+
+  tasks:
+    - name: "Task 1"
+      debug: 
+        msg: "{{ item }}"
+      loop: "{{ ansible_net_interfaces }}"

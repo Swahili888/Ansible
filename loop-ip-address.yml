@@ -1,0 +1,20 @@
+---
+
+- name: "loop test"
+  hosts: usa
+  gather_facts: true
+  connection: network_cli
+
+  tasks:
+    - name: Gather all network facts
+      cisco.ios.ios_facts:
+        gather_subset:
+          - all
+      register: net_facts
+
+    - name: Display network facts
+      debug:
+        var: net_facts
+        msg: "Interface {{ item['key'] }} has an IP Address of {{ item['value'] }}"
+      loop: "{{ ansible_net_interfaces | dict2items }}"
+      when: item['value']['lineprotocol'] == "up"

@@ -1,0 +1,19 @@
+---
+
+- name: "MY BANNER PLAYBOOK"
+  hosts: usa
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: "Configure MOTD Banner"
+      cisco.ios.ios_banner:
+        banner: motd
+        text: |
+          This is my banner
+          for all of my devices
+          in the network in the USA
+        state: present
+
+      register: my_banner
+
